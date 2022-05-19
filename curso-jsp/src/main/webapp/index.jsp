@@ -19,46 +19,47 @@ form {
 	position: absolute;
 	top: 40%;
 	left: 40%;
-	right: 40%
+	right: 40%;
 }
 
-h5 {
+h3 {
 	position: absolute;
 	top: 30%;
 	left: 40%;
 	right: 40%;
+	text-align: center;
 }
 
 .msg {
 	position: absolute;
-	top: 60%;
+	top: 10%;
 	left: 40%;
 	right: 40%;
 	font-size: 15px;
-	color: red;
+	color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
 }
 </style>
 
 </head>
 <body>
-	<h5>Bem vindo ao curso de JSP</h5>
+	<h3>Bem vindo ao curso de JSP</h3>
 	<form class="row g-3 needs-validation" novalidate action="ServletLogin"
 		method="post">
 		<input type="hidden" value="<%=request.getParameter("url")%>"
 			name="url">
-		<div class="col-md-6">
+		<div class="mb-3">
 			<label class="form-label">Login</label> <input class="form-control"
 				name="login" type="text" required>
 			<div class="invalid-feedback">Login obrigatório</div>
 		</div>
-		<div class="col-md-6">
+		<div class="mb-3">
 			<label class="form-label">Senha</label> <input class="form-control"
 				name="senha" type="password" required>
 			<div class="invalid-feedback">Senha obrigatória</div>
 		</div>
-		<div class="col-12">
 			<input type="submit" value="Login" class="btn btn-primary">
-		</div>
 	</form>
 	<h5 class="msg">${msg}</h5>
 
