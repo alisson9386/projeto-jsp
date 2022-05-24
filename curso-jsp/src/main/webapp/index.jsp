@@ -37,15 +37,15 @@ h3 {
 	right: 40%;
 	font-size: 15px;
 	color: #842029;
-    background-color: #f8d7da;
-    border-color: #f5c2c7;
+	background-color: #f8d7da;
+	border-color: #f5c2c7;
 }
 </style>
 
 </head>
 <body>
 	<h3>Bem vindo ao curso de JSP</h3>
-	<form class="row g-3 needs-validation" novalidate action="ServletLogin"
+	<form class="row g-3 needs-validation" novalidate action="<%=request.getContextPath() %>/ServletLogin"
 		method="post">
 		<input type="hidden" value="<%=request.getParameter("url")%>"
 			name="url">
@@ -59,7 +59,7 @@ h3 {
 				name="senha" type="password" required>
 			<div class="invalid-feedback">Senha obrigatória</div>
 		</div>
-			<input type="submit" value="Login" class="btn btn-primary">
+		<input type="submit" value="Login" class="btn btn-primary">
 	</form>
 	<h5 class="msg">${msg}</h5>
 
