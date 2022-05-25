@@ -1,7 +1,10 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
+import dao.DAOUsuarioRepository;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,7 +12,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.ModelLogin;
 
 public class ServletUsuarioController extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
+	
+	private DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
        
     public ServletUsuarioController() {
         super();
@@ -20,6 +26,7 @@ public class ServletUsuarioController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
 		String id = request.getParameter("id");
 		String nome = request.getParameter("nome");
 		String email = request.getParameter("email");
@@ -33,9 +40,21 @@ public class ServletUsuarioController extends HttpServlet {
 		modelLogin.setLogin(login);
 		modelLogin.setSenha(senha);
 		
-		request.setAttribute("modelLogin", modelLogin);
 		
+		daoUsuarioRepository.gravarUsuario(modelLogin);
+			
+		request.setAttribute("msg", "Operação realizada com sucesso!");
+		request.setAttribute("modelLogin", modelLogin);
 		request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			RequestDispatcher redirecionar = request.getRequestDispatcher("/erro.jsp");
+			request.setAttribute("msg", e.getMessage());
+			redirecionar.forward(request, response);
+		}
+		
+		
 	}
 
 }
