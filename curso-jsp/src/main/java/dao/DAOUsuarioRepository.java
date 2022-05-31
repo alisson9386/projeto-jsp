@@ -55,4 +55,15 @@ public class DAOUsuarioRepository {
 		
 	}
 	
+	public boolean validaLogin(String login) throws Exception {
+		String sql = "SELECT COUNT(1) > 0 as existe FROM model_login WHERE upper(login) = upper('" + login + "')";
+		
+		PreparedStatement statement = connection.prepareStatement(sql);
+		
+		ResultSet resultado =  statement.executeQuery();
+		
+		resultado.next();
+		return resultado.getBoolean("existe");
+	}
+	
 }
