@@ -10358,6 +10358,7 @@ body.menu-bottom #collapse-menu {
   position: relative; }
   .form-material .form-group.form-static-label .form-control ~ .float-label {
     top: -14px;
+    color:black;
     font-size: 11px; }
 .form-material .form-control {
   display: inline-block;
@@ -10482,7 +10483,7 @@ body.menu-bottom #collapse-menu {
 .form-material .form-default .form-control:focus ~ label {
   color: #d6d6d6; }
 .form-material .form-default .form-control:focus ~ .form-bar:after, .form-material .form-default .form-control:focus ~ .form-bar:before {
-  background: #d6d6d6; }
+  background: black; }
 .form-material .form-default.form-static-label .float-label {
   color: #d6d6d6; }
 .form-material .form-default.form-static-label .form-control {
