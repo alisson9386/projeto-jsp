@@ -81,10 +81,10 @@ public class DAOUsuarioRepository {
 		return resultado.getBoolean("existe");
 	}
 	
-	public void deletarUsuario(String login) throws Exception {
-		String sql = "DELETE FROM model_login WHERE login = ?;";
+	public void deletarUsuario(String id) throws Exception {
+		String sql = "DELETE FROM model_login WHERE id = ?;";
 		PreparedStatement statement = connection.prepareStatement(sql);
-		statement.setString(1, login);
+		statement.setLong(1, Long.parseLong(id));
 		statement.executeUpdate();
 		connection.commit();
 	}
