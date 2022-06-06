@@ -26,25 +26,33 @@ public class ServletUsuarioController extends HttpServlet {
 
 			if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletar")) {
 				String id = request.getParameter("id");
-				
+
 				daoUsuarioRepository.deletarUsuario(id);
-				
+
 				request.setAttribute("msg", "Excluído com sucesso!");
-				
+
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+
+			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletarajax")) {
+				String id = request.getParameter("id");
+
+				daoUsuarioRepository.deletarUsuario(id);
+
+				response.getWriter().write("Excluído com sucesso!");
+
+			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarUserAjax")) {
 				
+				String nomeBusca = request.getParameter("nomeBusca");
+				System.out.println(nomeBusca);
+				
+				//daoUsuarioRepository.deletarUsuario(id);
+
+				//response.getWriter().write("Excluído com sucesso!");
+
+			} else {
+				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 			}
-			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletarajax")) {
-					String id = request.getParameter("id");
-					
-					daoUsuarioRepository.deletarUsuario(id);
-					
-					response.getWriter().write("Excluído com sucesso!");
-					
-				}else {
-					request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
-				}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			RequestDispatcher redirecionar = request.getRequestDispatcher("/erro.jsp");

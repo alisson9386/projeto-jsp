@@ -115,6 +115,27 @@
 	  </div>
 	</div>
 	<script type="text/javascript">
+	function buscarUsuario() {
+		var nomeBusca = document.getElementById("nomeBusca").value;
+		if(nomeBusca != null && nomeBusca != '' && nomeBusca.trim() != ''){
+			
+			var urlAction = document.getElementById('formUser').action;
+
+			$.ajax({
+				method: "get",
+				url : urlAction,
+				data : "nomeBusca=" + nomeBusca + '&acao=buscarUserAjax',
+				success: function(response) {
+					
+					
+				}
+					
+			}).fail(function(xhr, status, errorThrown) {
+				alert('Erro ao buscar usuario por nome: ' + xhr.responseText);
+			});
+			
+		}
+	}
 	
 	function deleteAjax() {
 		if(confirm('Deseja realmente excluir os dados?')){
@@ -156,12 +177,6 @@
 	    }
 	}
 	
-	function buscarUsuario() {
-		var nomeBusca = document.getElementById('nomeBusca').value;
-		if(nomeBusca != null && nomeBusca != '' && nomeBusca.trim() != ''){
-			alert(nomeBusca);
-		}
-	}
 </script>
 	
 </body>
