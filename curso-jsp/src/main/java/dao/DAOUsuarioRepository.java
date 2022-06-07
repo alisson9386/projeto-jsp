@@ -3,7 +3,8 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import connection.SingleConnectionBanco;
 import model.ModelLogin;
@@ -16,7 +17,7 @@ public class DAOUsuarioRepository {
 		connection = SingleConnectionBanco.getConnection();
 	}
 	
-	public ModelLogin gravarUsuario(ModelLogin objetoUsuario) throws SQLException {
+	public ModelLogin gravarUsuario(ModelLogin objetoUsuario) throws Exception {
 			if(objetoUsuario.isNovo()) {
 				String sql = "INSERT INTO model_login(login, senha, nome, email) VALUES (?, ?, ?, ?)";
 				PreparedStatement statement = connection.prepareStatement(sql);
@@ -39,15 +40,31 @@ public class DAOUsuarioRepository {
 				statement.executeUpdate();
 				connection.commit();
 			}
-				
-			
-			
-			
-			
 			return this.consultarUsuario(objetoUsuario.getLogin());
 	}
 	
-	public ModelLogin consultarUsuario(String login) throws SQLException {
+	
+	public List<ModelLogin> buscarUsuarioLista(String nome) throws Exception{
+		
+		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
+		
+		String sql = "SELECT * FROM model_login WHERE upper(nome) LIKE upper('%"+nome+"%')";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		ResultSet resultado = statement.executeQuery();
+		while(resultado.next()) {
+			ModelLogin modelLogin = new ModelLogin();
+			modelLogin.setEmail(resultado.getString("email"));
+			modelLogin.setId(resultado.getLong("id"));
+			modelLogin.setLogin(resultado.getString("login"));
+			modelLogin.setNome(resultado.getString("nome"));
+			//modelLogin.setSenha(resultado.getString("senha"));
+			
+			retorno.add(modelLogin);
+		}
+		return retorno;
+	}
+	
+	public ModelLogin consultarUsuario(String login) throws Exception {
 		
 		ModelLogin modelLogin = new ModelLogin();
 		
