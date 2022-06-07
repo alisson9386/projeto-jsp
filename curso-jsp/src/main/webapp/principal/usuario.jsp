@@ -95,7 +95,8 @@
 			    <button class="btn btn-info" type="button" onclick="buscarUsuario();">Buscar</button>
 			  </div>
 			</div>
-			<table class="table">
+			<div style="height: 300px; overflow: scroll;">
+			<table class="table" id="tabelaUsuarios">
 			  <thead>
 			    <tr>
 			      <th scope="col">ID</th>
@@ -107,6 +108,9 @@
 			    
 			  </tbody>
 			</table>
+			</div>
+			<br>
+			<span id="totalResultados"></span>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -126,8 +130,15 @@
 				url : urlAction,
 				data : "nomeBusca=" + nomeBusca + '&acao=buscarUserAjax',
 				success: function(response) {
+					var json = JSON.parse(response);
 					
-					alert(response);
+					$('#tabelaUsuarios > tbody > tr').remove();
+					for(var p = 0; p < json.length; p ++){
+						$('#tabelaUsuarios > tbody').append('<tr> <td>' + json[p].id + '</td> <td>' + json[p].nome + '</td> <td> <button type="button" class="btn btn-dark"><i class="bi bi-check-circle"></i></button> </td> </tr>');
+						
+					}
+					
+					document.getElementById('totalResultados').textContent = 'Resultados: ' + json.length;
 				}
 					
 			}).fail(function(xhr, status, errorThrown) {
