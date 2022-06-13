@@ -100,6 +100,7 @@
 														<td><c:out value="${ml.login}"></c:out></td>
 														<td><c:out value="${ml.email}"></c:out></td>
 														<td><a class="btn btn-info" href="<%=request.getContextPath() %>/ServletUsuarioController?acao=buscarEditar&id=${ml.id}">Editar</a></td>
+														<td>
 														</tr>
 													</c:forEach>
 												</tbody>
