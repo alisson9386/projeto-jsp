@@ -18,7 +18,8 @@ public class DAOUsuarioRepository {
 	}
 	
 	public ModelLogin gravarUsuario(ModelLogin objetoUsuario) throws Exception {
-			if(objetoUsuario.isNovo()) {
+		ModelLogin consulta = consultarUsuario(objetoUsuario.getLogin());	
+		if(consulta.getId() == null) {
 				String sql = "INSERT INTO model_login(login, senha, nome, email) VALUES (?, ?, ?, ?)";
 				PreparedStatement statement = connection.prepareStatement(sql);
 				statement.setString(1, objetoUsuario.getLogin());
@@ -30,7 +31,7 @@ public class DAOUsuarioRepository {
 				connection.commit();
 				
 			}else {
-				String sql = "UPDATE model_login SET login=?, senha=?, nome=?, email=? WHERE id = "+objetoUsuario.getId()+";";
+				String sql = "UPDATE model_login SET login=?, senha=?, nome=?, email=? WHERE id = "+consulta.getId()+";";
 				PreparedStatement statement = connection.prepareStatement(sql);
 				statement.setString(1, objetoUsuario.getLogin());
 				statement.setString(2, objetoUsuario.getSenha());
@@ -87,7 +88,7 @@ public class DAOUsuarioRepository {
 		
 	}
 	
-public ModelLogin consultarUsuarioPorId(String id) throws Exception {
+	public ModelLogin consultarUsuarioPorId(String id) throws Exception {
 		
 		ModelLogin modelLogin = new ModelLogin();
 		
@@ -127,6 +128,27 @@ public ModelLogin consultarUsuarioPorId(String id) throws Exception {
 		statement.setLong(1, Long.parseLong(id));
 		statement.executeUpdate();
 		connection.commit();
+	}
+	
+	public List<ModelLogin> buscarUsuarioListaTela() throws Exception{
+		
+		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
+		
+		String sql = "SELECT * FROM model_login";
+		
+		PreparedStatement statement = connection.prepareStatement(sql);
+		ResultSet resultado = statement.executeQuery();
+		while(resultado.next()) {
+			ModelLogin modelLogin = new ModelLogin();
+			modelLogin.setEmail(resultado.getString("email"));
+			modelLogin.setId(resultado.getLong("id"));
+			modelLogin.setLogin(resultado.getString("login"));
+			modelLogin.setNome(resultado.getString("nome"));
+			//modelLogin.setSenha(resultado.getString("senha"));
+			
+			retorno.add(modelLogin);
+		}
+		return retorno;
 	}
 	
 }
