@@ -11,6 +11,7 @@ public class ModelLogin implements Serializable {
 	private String nome;
 	private String login;
 	private String senha;
+	private boolean useradmin;
 	
 	public boolean isNovo() {
 		if(this.id == null) {
@@ -28,6 +29,14 @@ public class ModelLogin implements Serializable {
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	public boolean isUseradmin() {
+		return useradmin;
+	}
+
+	public void setUseradmin(boolean useradmin) {
+		this.useradmin = useradmin;
 	}
 
 	public String getSenha() {
