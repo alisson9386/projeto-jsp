@@ -53,6 +53,16 @@
 																	class="float-label">Email:</label>
 															</div>
 															<div class="form-group form-default form-static-label">
+																<select class="form-control" aria-label="Default select example" name="perfil">
+																  <option disabled="disabled">Selecione o perfil</option>
+																  <option value="ADMIN">Admin</option>
+																  <option value="SECRETARIO">Secretário (a)</option>
+																  <option value="AUXILIAR">Auxiliar</option>
+																</select>
+																<span class="form-bar"></span> <label
+																	class="float-label">Perfil:</label>
+															</div>
+															<div class="form-group form-default form-static-label">
 																<input type="text" name="login" id="login"
 																	class="form-control" required="required"
 																	autocomplete="off" value="${modelLogin.login}">
@@ -90,6 +100,7 @@
 														<th scope="col">Nome</th>
 														<th scope="col">Login</th>
 														<th scope="col">Email</th>
+														<th scope="col">Perfil</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -99,6 +110,7 @@
 														<td><c:out value="${ml.nome}"></c:out></td>
 														<td><c:out value="${ml.login}"></c:out></td>
 														<td><c:out value="${ml.email}"></c:out></td>
+														<td><c:out value="${ml.perfil}"></c:out></td>
 														<td><a class="btn btn-info" href="<%=request.getContextPath() %>/ServletUsuarioController?acao=buscarEditar&id=${ml.id}">Editar</a></td>
 														<td>
 														</tr>

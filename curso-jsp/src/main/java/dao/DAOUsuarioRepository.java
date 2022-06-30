@@ -20,24 +20,26 @@ public class DAOUsuarioRepository {
 	public ModelLogin gravarUsuario(ModelLogin objetoUsuario, Long userLogado) throws Exception {
 		ModelLogin consulta = consultarUsuario(objetoUsuario.getLogin(), userLogado);	
 		if(consulta.getId() == null) {
-				String sql = "INSERT INTO model_login(login, senha, nome, email, usuario_id) VALUES (?, ?, ?, ?, ?)";
+				String sql = "INSERT INTO model_login(login, senha, nome, email, usuario_id, perfil) VALUES (?, ?, ?, ?, ?, ?)";
 				PreparedStatement statement = connection.prepareStatement(sql);
 				statement.setString(1, objetoUsuario.getLogin());
 				statement.setString(2, objetoUsuario.getSenha());
 				statement.setString(3, objetoUsuario.getNome());
 				statement.setString(4, objetoUsuario.getEmail());
 				statement.setLong(5, userLogado);
+				statement.setString(6, objetoUsuario.getPerfil());
 				
 				statement.execute();
 				connection.commit();
 				
 			}else {
-				String sql = "UPDATE model_login SET login=?, senha=?, nome=?, email=? WHERE id = "+consulta.getId()+";";
+				String sql = "UPDATE model_login SET login=?, senha=?, nome=?, email=?, perfil=? WHERE id = "+consulta.getId()+";";
 				PreparedStatement statement = connection.prepareStatement(sql);
 				statement.setString(1, objetoUsuario.getLogin());
 				statement.setString(2, objetoUsuario.getSenha());
 				statement.setString(3, objetoUsuario.getNome());
 				statement.setString(4, objetoUsuario.getEmail());
+				statement.setString(5, objetoUsuario.getPerfil());
 				
 				statement.executeUpdate();
 				connection.commit();
@@ -106,6 +108,7 @@ public ModelLogin consultarUsuarioLogado(String login) throws Exception {
 			modelLogin.setSenha(resultado.getString("senha"));
 			modelLogin.setNome(resultado.getString("nome"));
 			modelLogin.setUseradmin(resultado.getBoolean("useradmin"));
+			modelLogin.setPerfil(resultado.getString("perfil"));
 		}
 		
 		
@@ -193,6 +196,7 @@ public ModelLogin consultarUsuario(String login) throws Exception {
 			modelLogin.setId(resultado.getLong("id"));
 			modelLogin.setLogin(resultado.getString("login"));
 			modelLogin.setNome(resultado.getString("nome"));
+			modelLogin.setPerfil(resultado.getString("perfil"));
 			//modelLogin.setSenha(resultado.getString("senha"));
 			
 			retorno.add(modelLogin);
