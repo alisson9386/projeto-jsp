@@ -12,7 +12,7 @@
                               <div class="main-menu-header">
                                   <img class="img-80 img-radius" src="<%=request.getContextPath() %>/assets/images/avatar-alisson.jpg" alt="User-Profile-Image">
                                   <div class="user-details">
-                                      <span id="more-details"><%=session.getAttribute("usuario") %><i class="fa fa-caret-down"></i></span>
+                                      <span id="more-details"><%=session.getAttribute("nome") %><i class="fa fa-caret-down"></i></span>
                                   </div>
                               </div>
         

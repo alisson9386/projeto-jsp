@@ -13,6 +13,7 @@ public class ModelLogin implements Serializable {
 	private String senha;
 	private boolean useradmin;
 	private String perfil;
+	private String sexo;
 	
 	public boolean isNovo() {
 		if(this.id == null) {
@@ -30,6 +31,14 @@ public class ModelLogin implements Serializable {
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
 	}
 
 	public String getPerfil() {
