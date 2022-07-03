@@ -197,7 +197,7 @@ public ModelLogin consultarUsuario(String login) throws Exception {
 		
 		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
 		
-		String sql = "SELECT * FROM model_login where useradmin is false and usuario_id = " + userLogado;
+		String sql = "SELECT * FROM model_login where useradmin is false and usuario_id = " + userLogado + " order by nome";
 		
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet resultado = statement.executeQuery();

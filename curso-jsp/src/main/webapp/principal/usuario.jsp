@@ -28,7 +28,7 @@
 												<div class="card">
 													<div class="card-block">
 														<h4 class="sub-title">Cadastro de usuário</h4>
-														<form class="form-material" method="post"
+														<form class="form-material" enctype="multipart/form-data" method="post"
 															action="<%=request.getContextPath()%>/ServletUsuarioController"
 															id="formUser">
 
@@ -39,6 +39,12 @@
 																	class="form-control" disabled value="${modelLogin.id}">
 																<span class="form-bar"></span> <label
 																	class="float-label">ID</label>
+															</div>
+															<div class="form-group form-default form-static-label input-group mb-4">
+																<div class="input-group-prepend">
+																<img alt="Imagem Usuário" src="https://blog.leucotron.com.br/wp-content/uploads/2021/10/a-importancia-da-tecnologia-da-informacao-nas-empresas.jpeg" width="70px">
+																</div>
+																<input type="file" class="form-control-file" style="margin-top: 15px; margin-left: 5px">
 															</div>
 															<div class="form-group form-default form-static-label">
 																<input type="text" name="nome" id="nome"
@@ -149,7 +155,6 @@
 											<table class="table" id="tabelaUsuariosCarregadosTela">
 												<thead>
 													<tr>
-														<th scope="col">ID</th>
 														<th scope="col">Nome</th>
 														<th scope="col">Login</th>
 														<th scope="col">Email</th>
@@ -160,7 +165,6 @@
 												<tbody>
 													<c:forEach items="${modelLogins}" var="ml">
 														<tr>
-														<td><c:out value="${ml.id}"></c:out></td>
 														<td><c:out value="${ml.nome}"></c:out></td>
 														<td><c:out value="${ml.login}"></c:out></td>
 														<td><c:out value="${ml.email}"></c:out></td>
