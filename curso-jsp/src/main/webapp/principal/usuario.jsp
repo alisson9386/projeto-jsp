@@ -35,15 +35,21 @@
 															<input type="hidden" name="acao" id="acao" value="">
 
 															<div class="form-group form-default form-static-label">
-																<input type="text" name="id" id="id"
-																	class="form-control" disabled value="${modelLogin.id}">
+																<input type="text" name="idUsuario" id="idUsuario"
+																	class="form-control" value="${modelLogin.id}">
 																<span class="form-bar"></span> <label
 																	class="float-label">ID</label>
 															</div>
 															<div class="form-group form-default form-static-label input-group mb-4">
 																<div class="input-group-prepend">
-																<img alt="Imagem Usuário" id="fotoembase64" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png" width="70px">
+																<c:if test="${modelLogin.fotoUser != '' && modelLogin.fotoUser != null}">
+																	<img alt="Imagem Usuário" id="fotoembase64" src="${modelLogin.fotoUser}" width="70px">
+																</c:if>
+																<c:if test="${modelLogin.fotoUser == '' || modelLogin.fotoUser == null}">
+																	<img alt="Imagem Usuário" id="fotoembase64" src="assets\images\avatar-@user.png" width="70px">
+																</c:if>
 																</div>
+																<br>
 																<input type="file" id="fileFoto" name="fileFoto" accept="image/*" onchange="visualizaImg('fotoembase64','fileFoto');" class="form-control-file" style="margin-top: 15px; margin-left: 5px">
 															</div>
 															<div class="form-group form-default form-static-label">
@@ -61,7 +67,7 @@
 															</div>
 															<div class="form-group form-default form-static-label">
 																<select class="form-control" aria-label="Default select example" name="perfil">
-																  <option disabled="disabled"">Selecione o perfil</option>
+																  <option disabled="disabled">Selecione o perfil</option>
 																  
 																  <option value="ADMIN" <%
 																  ModelLogin modelLogin = (ModelLogin) request.getAttribute("modelLogin");

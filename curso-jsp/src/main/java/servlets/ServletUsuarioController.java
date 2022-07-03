@@ -104,7 +104,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 
 			String msg = "Operação realizada com sucesso!";
 
-			String id = request.getParameter("id");
+			String id = request.getParameter("idUsuario");
 			String nome = request.getParameter("nome");
 			String email = request.getParameter("email");
 			String login = request.getParameter("login");
@@ -123,13 +123,14 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			
 			if(ServletFileUpload.isMultipartContent(request)) {
 				Part part = request.getPart("fileFoto"); //Pega foto da tela
-				byte [] foto = IOUtils.toByteArray(part.getInputStream());
-				@SuppressWarnings("static-access")
-				String imagemBase64 = "data:" + part.getContentType() + ";base64," + new Base64().encodeBase64String(foto);
-				
-				modelLogin.setFotoUser(imagemBase64);
-				modelLogin.setExtensaoFotoUser(part.getContentType().split("\\/")[1]);
-				
+				if(part.getSize() > 0) {
+					byte [] foto = IOUtils.toByteArray(part.getInputStream());
+					@SuppressWarnings("static-access")
+					String imagemBase64 = "data:" + part.getContentType() + ";base64," + new Base64().encodeBase64String(foto);
+					
+					modelLogin.setFotoUser(imagemBase64);
+					modelLogin.setExtensaoFotoUser(part.getContentType().split("\\/")[1]);
+				}
 			}
 
 			if (daoUsuarioRepository.validaLogin(modelLogin.getLogin()) && modelLogin.getId() == null) {

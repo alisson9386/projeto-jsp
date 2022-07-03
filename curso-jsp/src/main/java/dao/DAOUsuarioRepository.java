@@ -18,8 +18,7 @@ public class DAOUsuarioRepository {
 	}
 	
 	public ModelLogin gravarUsuario(ModelLogin objetoUsuario, Long userLogado) throws Exception {
-		ModelLogin consulta = consultarUsuario(objetoUsuario.getLogin(), userLogado);	
-		if(consulta.getId() == null) {
+		if(objetoUsuario.isNovo()) {
 				String sql = "INSERT INTO model_login(login, senha, nome, email, usuario_id, perfil, sexo) VALUES (?, ?, ?, ?, ?, ?, ?)";
 				PreparedStatement statement = connection.prepareStatement(sql);
 				statement.setString(1, objetoUsuario.getLogin());
@@ -47,7 +46,7 @@ public class DAOUsuarioRepository {
 				
 				
 			}else {
-				String sql = "UPDATE model_login SET login=?, senha=?, nome=?, email=?, perfil=?, sexo=? WHERE id = "+consulta.getId()+";";
+				String sql = "UPDATE model_login SET login=?, senha=?, nome=?, email=?, perfil=?, sexo=? WHERE id = "+objetoUsuario.getId()+";";
 				PreparedStatement statement = connection.prepareStatement(sql);
 				statement.setString(1, objetoUsuario.getLogin());
 				statement.setString(2, objetoUsuario.getSenha());
@@ -59,7 +58,7 @@ public class DAOUsuarioRepository {
 				statement.executeUpdate();
 				connection.commit();
 				
-				if(objetoUsuario.getFotoUser() != null && !objetoUsuario.getFotoUser().isEmpty()) {
+				if(objetoUsuario.getFotoUser() != null) {
 					sql = "UPDATE MODEL_LOGIN SET fotouser = ? , extensaofotouser = ? WHERE id = ?";
 					
 					statement = connection.prepareStatement(sql);
@@ -115,6 +114,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setNome(resultado.getString("nome"));
 			modelLogin.setPerfil(resultado.getString("perfil"));
 			modelLogin.setSexo(resultado.getString("sexo"));
+			modelLogin.setFotoUser(resultado.getString("fotouser"));
 		}
 		
 		
@@ -141,6 +141,7 @@ public ModelLogin consultarUsuarioLogado(String login) throws Exception {
 			modelLogin.setUseradmin(resultado.getBoolean("useradmin"));
 			modelLogin.setPerfil(resultado.getString("perfil"));
 			modelLogin.setSexo(resultado.getString("sexo"));
+			modelLogin.setFotoUser(resultado.getString("fotouser"));
 		}
 		
 		
@@ -166,6 +167,7 @@ public ModelLogin consultarUsuario(String login) throws Exception {
 			modelLogin.setNome(resultado.getString("nome"));
 			modelLogin.setPerfil(resultado.getString("perfil"));
 			modelLogin.setSexo(resultado.getString("sexo"));
+			modelLogin.setFotoUser(resultado.getString("fotouser"));
 		}
 		
 		
@@ -192,6 +194,7 @@ public ModelLogin consultarUsuario(String login) throws Exception {
 			modelLogin.setNome(resultado.getString("nome"));
 			modelLogin.setPerfil(resultado.getString("perfil"));
 			modelLogin.setSexo(resultado.getString("sexo"));
+			modelLogin.setFotoUser(resultado.getString("fotouser"));
 		}
 		
 		
