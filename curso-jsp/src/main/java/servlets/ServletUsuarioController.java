@@ -124,8 +124,12 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			if(ServletFileUpload.isMultipartContent(request)) {
 				Part part = request.getPart("fileFoto"); //Pega foto da tela
 				byte [] foto = IOUtils.toByteArray(part.getInputStream());
-				String imagemBase64 = new Base64().encodeBase64String(foto);
-				System.out.println(imagemBase64);
+				@SuppressWarnings("static-access")
+				String imagemBase64 = "data:" + part.getContentType() + ";base64," + new Base64().encodeBase64String(foto);
+				
+				modelLogin.setFotoUser(imagemBase64);
+				modelLogin.setExtensaoFotoUser(part.getContentType().split("\\/")[1]);
+				
 			}
 
 			if (daoUsuarioRepository.validaLogin(modelLogin.getLogin()) && modelLogin.getId() == null) {

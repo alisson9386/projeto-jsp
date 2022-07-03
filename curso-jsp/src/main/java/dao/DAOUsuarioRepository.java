@@ -33,6 +33,19 @@ public class DAOUsuarioRepository {
 				statement.execute();
 				connection.commit();
 				
+				if(objetoUsuario.getFotoUser() != null && !objetoUsuario.getFotoUser().isEmpty()) {
+					sql = "UPDATE MODEL_LOGIN SET fotouser = ? , extensaofotouser = ? WHERE login = ?";
+					
+					statement = connection.prepareStatement(sql);
+					statement.setString(1, objetoUsuario.getFotoUser());
+					statement.setString(2, objetoUsuario.getExtensaoFotoUser());
+					statement.setString(3, objetoUsuario.getLogin());
+					
+					statement.execute();
+					connection.commit();
+				}
+				
+				
 			}else {
 				String sql = "UPDATE model_login SET login=?, senha=?, nome=?, email=?, perfil=?, sexo=? WHERE id = "+consulta.getId()+";";
 				PreparedStatement statement = connection.prepareStatement(sql);
@@ -45,6 +58,18 @@ public class DAOUsuarioRepository {
 				
 				statement.executeUpdate();
 				connection.commit();
+				
+				if(objetoUsuario.getFotoUser() != null && !objetoUsuario.getFotoUser().isEmpty()) {
+					sql = "UPDATE MODEL_LOGIN SET fotouser = ? , extensaofotouser = ? WHERE id = ?";
+					
+					statement = connection.prepareStatement(sql);
+					statement.setString(1, objetoUsuario.getFotoUser());
+					statement.setString(2, objetoUsuario.getExtensaoFotoUser());
+					statement.setLong(3, objetoUsuario.getId());
+					
+					statement.execute();
+					connection.commit();
+				}
 			}
 			return this.consultarUsuario(objetoUsuario.getLogin(), userLogado);
 	}
