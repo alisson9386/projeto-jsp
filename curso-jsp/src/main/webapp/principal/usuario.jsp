@@ -42,9 +42,9 @@
 															</div>
 															<div class="form-group form-default form-static-label input-group mb-4">
 																<div class="input-group-prepend">
-																<img alt="Imagem Usuário" src="https://blog.leucotron.com.br/wp-content/uploads/2021/10/a-importancia-da-tecnologia-da-informacao-nas-empresas.jpeg" width="70px">
+																<img alt="Imagem Usuário" id="fotoembase64" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png" width="70px">
 																</div>
-																<input type="file" class="form-control-file" style="margin-top: 15px; margin-left: 5px">
+																<input type="file" id="fileFoto" name="fileFoto" accept="image/*" onchange="visualizaImg('fotoembase64','fileFoto');" class="form-control-file" style="margin-top: 15px; margin-left: 5px">
 															</div>
 															<div class="form-group form-default form-static-label">
 																<input type="text" name="nome" id="nome"
@@ -235,6 +235,27 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+	
+		function visualizaImg(fotoembase64, fileFoto) {
+			
+			var preview = document.getElementById(fotoembase64); //campo IMG HTML
+			var fileUser = document.getElementById(fileFoto).files[0];
+			var reader = new FileReader();
+			
+			reader.onloadend = function () {
+				preview.src = reader.result;
+			};
+			
+			if(fileUser){
+				reader.readAsDataURL(fileUser);
+			}else{
+				preview.src = '';
+			}
+			
+			
+		}
+	
+	
 		function verEditar(id) {
 			var urlAction = document.getElementById('formUser').action;
 
