@@ -195,6 +195,7 @@ public ModelLogin consultarUsuario(String login) throws Exception {
 			modelLogin.setPerfil(resultado.getString("perfil"));
 			modelLogin.setSexo(resultado.getString("sexo"));
 			modelLogin.setFotoUser(resultado.getString("fotouser"));
+			modelLogin.setExtensaoFotoUser(resultado.getString("extensaofotouser"));
 		}
 		
 		

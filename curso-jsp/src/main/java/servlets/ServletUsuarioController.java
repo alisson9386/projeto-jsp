@@ -31,13 +31,14 @@ public class ServletUsuarioController extends ServletGenericUtil {
 		super();
 	}
 
+	@SuppressWarnings("static-access")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
 			String acao = request.getParameter("acao");
 
 			if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletar")) {
-				String id = request.getParameter("id");
+				String id = request.getParameter("idUsuario");
 
 				daoUsuarioRepository.deletarUsuario(id);
 				
@@ -83,7 +84,18 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				request.setAttribute("modelLogins", modelLogins);
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 
-			} else {
+			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("downloadFoto")) {
+				
+				String id = request.getParameter("id");
+				ModelLogin modelLogin = daoUsuarioRepository.consultarUsuarioPorId(id, super.getUserLogado(request));
+				if(modelLogin.getFotoUser() != null && !modelLogin.getFotoUser().isEmpty()) {
+					response.setHeader("Content-Disposition", "attachment;filename=arquivo." + modelLogin.getExtensaoFotoUser());
+					response.getOutputStream().write(new Base64().decodeBase64(modelLogin.getFotoUser().split("\\,")[1]));
+				}
+				
+			
+			}else {
+			
 				
 				List<ModelLogin> modelLogins = daoUsuarioRepository.buscarUsuarioListaTela(super.getUserLogado(request));
 				request.setAttribute("modelLogins", modelLogins);
