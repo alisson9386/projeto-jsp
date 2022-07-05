@@ -90,7 +90,7 @@ public class DAOUsuarioRepository {
 		
 		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
 		
-		String sql = "SELECT * FROM model_login WHERE upper(nome) LIKE upper('%"+nome+"%') and useradmin is false and usuario_id = " + userLogado;
+		String sql = "SELECT * FROM model_login WHERE upper(nome) LIKE upper('%"+nome+"%') and useradmin is false and usuario_id = " + userLogado + " limit 5";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet resultado = statement.executeQuery();
 		while(resultado.next()) {
@@ -112,7 +112,7 @@ public class DAOUsuarioRepository {
 		
 		ModelLogin modelLogin = new ModelLogin();
 		
-		String sql = "SELECT * FROM model_login WHERE upper(login) = upper(?) and useradmin is false and usuario_id = " + userLogado;
+		String sql = "SELECT * FROM model_login WHERE upper(login) = upper(?) and useradmin is false and usuario_id = " + userLogado + " limit 5";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, login);
 		
@@ -263,7 +263,30 @@ public ModelLogin consultarUsuario(String login) throws Exception {
 		
 		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
 		
-		String sql = "SELECT * FROM model_login where useradmin is false and usuario_id = " + userLogado + " order by nome";
+		String sql = "SELECT * FROM model_login where useradmin is false and usuario_id = " + userLogado + " order by nome limit 5";
+		
+		PreparedStatement statement = connection.prepareStatement(sql);
+		ResultSet resultado = statement.executeQuery();
+		while(resultado.next()) {
+			ModelLogin modelLogin = new ModelLogin();
+			modelLogin.setEmail(resultado.getString("email"));
+			modelLogin.setId(resultado.getLong("id"));
+			modelLogin.setLogin(resultado.getString("login"));
+			modelLogin.setNome(resultado.getString("nome"));
+			modelLogin.setPerfil(resultado.getString("perfil"));
+			modelLogin.setSexo(resultado.getString("sexo"));
+			//modelLogin.setSenha(resultado.getString("senha"));
+			
+			retorno.add(modelLogin);
+		}
+		return retorno;
+	}
+	
+public List<ModelLogin> buscarUsuarioListaTelaPaginada(Long userLogado, Integer offset) throws Exception{
+		
+		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
+		
+		String sql = "SELECT * FROM model_login where useradmin is false and usuario_id = " + userLogado + " ORDER BY nome OFFSET " + offset + " LIMIT 5";
 		
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet resultado = statement.executeQuery();
