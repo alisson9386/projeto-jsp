@@ -10,7 +10,16 @@
                       <div class="pcoded-inner-navbar main-menu">
                           <div class="">
                               <div class="main-menu-header">
-                                  <img class="img-80 img-radius" src="<%=request.getContextPath() %>/assets/images/avatar-alisson.jpg" alt="User-Profile-Image">
+                              
+                              
+                              <c:if test="${imagemUser != '' && imagemUser != null}">
+                                  <img class="img-80 img-radius" src="${imagemUser}" alt="User-Profile-Image">
+                               </c:if>
+                                  
+                                <c:if test="${imagemUser != '' && imagemUser == null}">
+                                  <img class="img-80 img-radius" src="<%=request.getContextPath() %>/assets/images/avatar-@user.png" alt="User-Profile-Image">
+                               </c:if>
+                                  
                                   <div class="user-details">
                                       <span id="more-details"><%=session.getAttribute("nome") %><i class="fa fa-caret-down"></i></span>
                                   </div>
@@ -60,14 +69,15 @@
                                           </a>
                                       </li>
                                   </c:if>
-                                      <!--  <li class=" ">
-                                          <a href="breadcrumb.html" class="waves-effect waves-dark">
+                                      <!-- <li class=" ">
+                                          <a href="<%=request.getContextPath() %>/ServletUsuarioController?acao=listarUser" class="waves-effect waves-dark">
                                               <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                              <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Breadcrumbs</span>
+                                              <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Lista de Usuários</span>
                                               <span class="pcoded-mcaret"></span>
                                           </a>
                                       </li>
-                                      <li class=" ">
+                                      
+                                       <li class=" ">
                                           <a href="button.html" class="waves-effect waves-dark">
                                               <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                               <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Button</span>

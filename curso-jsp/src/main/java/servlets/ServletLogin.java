@@ -58,6 +58,7 @@ public class ServletLogin extends HttpServlet {
 					request.getSession().setAttribute("perfil", modelLogin.getPerfil());
 					request.getSession().setAttribute("nome", modelLogin.getNome());
 					request.getSession().setAttribute("sexo", modelLogin.getSexo());
+					request.getSession().setAttribute("imagemUser", modelLogin.getFotoUser());
 
 					if (url == null || url.equals("null")) {
 						url = "principal/principal.jsp";
