@@ -3,7 +3,6 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -288,7 +287,7 @@ public ModelLogin consultarUsuario(String login) throws Exception {
 		String sql = "SELECT COUNT(1) as Total FROM model_login WHERE usuario_id = " + userLogado;
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet resultado = statement.executeQuery();
-		
+		resultado.next();
 		Double cadastros = resultado.getDouble("Total");
 		Double porpagina = 5.0;
 		Double pagina = cadastros/porpagina;

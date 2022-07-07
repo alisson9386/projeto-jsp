@@ -204,6 +204,7 @@
 											<table class="table" id="tabelaUsuariosCarregadosTela">
 												<thead>
 													<tr>
+														<th scope="col">ID</th>
 														<th scope="col">Nome</th>
 														<th scope="col">Login</th>
 														<th scope="col">Email</th>
@@ -214,6 +215,7 @@
 												<tbody>
 													<c:forEach items="${modelLogins}" var="ml">
 														<tr>
+														<td><c:out value="${ml.id}"></c:out></td>
 														<td><c:out value="${ml.nome}"></c:out></td>
 														<td><c:out value="${ml.login}"></c:out></td>
 														<td><c:out value="${ml.email}"></c:out></td>
@@ -226,6 +228,20 @@
 												</tbody>
 											</table>
 										</div>
+										<nav aria-label="Page navigation example">
+										  <ul class="pagination">
+										  <%
+										  
+										  int totalPagina = (int) request.getAttribute("totalPagina");
+										  
+										  for(int p = 0; p < totalPagina; p++){
+											  String url = request.getContextPath() + "/ServletUsuarioController?acao=paginar&pagina=" +(p * 5);
+											  out.print("<li class=\"page-item\"><a class=\"page-link\" href=\""+ url +"\">"+(p + 1)+"</a></li>");
+										  }
+										  
+										  %>
+										    </ul>
+										</nav>
 									</div>
 									<!-- Page-body end -->
 								</div>
