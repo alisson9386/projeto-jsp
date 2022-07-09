@@ -25,7 +25,7 @@ public class ModelLogin implements Serializable {
 	private String numero;
 	
 	public String getCep() {
-		return cep;
+		return cep; 
 	}
 
 	public void setCep(String cep) {
