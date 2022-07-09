@@ -62,9 +62,23 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				List<ModelLogin> dadosJsonUser = daoUsuarioRepository.buscarUsuarioLista(nomeBusca, super.getUserLogado(request));
 				ObjectMapper mapper = new ObjectMapper();
 				String json = mapper.writeValueAsString(dadosJsonUser);
+				response.addHeader("totalPagina", "" + daoUsuarioRepository.buscarUsuarioListaTotalPagina(nomeBusca, super.getUserLogado(request)));
 				response.getWriter().write(json);
+				
 
-			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarEditar")) {
+			}  else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarUserAjaxPage")) {
+				
+				String nomeBusca = request.getParameter("nomeBusca");
+				String pagina = request.getParameter("pagina");
+				
+				List<ModelLogin> dadosJsonUser = daoUsuarioRepository.buscarUsuarioListaOffSet(nomeBusca, super.getUserLogado(request), pagina);
+				ObjectMapper mapper = new ObjectMapper();
+				String json = mapper.writeValueAsString(dadosJsonUser);
+				response.addHeader("totalPagina", "" + daoUsuarioRepository.buscarUsuarioListaTotalPagina(nomeBusca, super.getUserLogado(request)));
+				response.getWriter().write(json); 
+			
+			
+			}else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarEditar")) {
 				
 				String id = request.getParameter("id");
 				

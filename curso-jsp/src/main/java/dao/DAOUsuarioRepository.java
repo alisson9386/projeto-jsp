@@ -90,7 +90,7 @@ public class DAOUsuarioRepository {
 		
 		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
 		
-		String sql = "SELECT * FROM model_login WHERE upper(nome) LIKE upper('%"+nome+"%') and useradmin is false and usuario_id = " + userLogado + " limit 5";
+		String sql = "SELECT * FROM model_login WHERE upper(nome) LIKE upper('%"+nome+"%') and useradmin is false and usuario_id = " + userLogado + " order by nome limit 5";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet resultado = statement.executeQuery();
 		while(resultado.next()) {
@@ -101,11 +101,51 @@ public class DAOUsuarioRepository {
 			modelLogin.setNome(resultado.getString("nome"));
 			modelLogin.setSexo(resultado.getString("sexo"));
 			modelLogin.setPerfil(resultado.getString("perfil"));
-			//modelLogin.setSenha(resultado.getString("senha"));
 			
 			retorno.add(modelLogin);
 		}
 		return retorno;
+	}
+	
+	
+	
+		public List<ModelLogin> buscarUsuarioListaOffSet(String nome, Long userLogado, String offset) throws Exception{
+				
+				List<ModelLogin> retorno = new ArrayList<ModelLogin>();
+				
+				String sql = "SELECT * FROM model_login WHERE upper(nome) LIKE upper('%"+nome+"%') and useradmin is false and usuario_id = " + userLogado + " order by nome offset " + offset + " limit 5";
+				PreparedStatement statement = connection.prepareStatement(sql);
+				ResultSet resultado = statement.executeQuery();
+				while(resultado.next()) {
+					ModelLogin modelLogin = new ModelLogin();
+					modelLogin.setEmail(resultado.getString("email"));
+					modelLogin.setId(resultado.getLong("id"));
+					modelLogin.setLogin(resultado.getString("login"));
+					modelLogin.setNome(resultado.getString("nome"));
+					modelLogin.setSexo(resultado.getString("sexo"));
+					modelLogin.setPerfil(resultado.getString("perfil"));
+					
+					retorno.add(modelLogin);
+				}
+				return retorno;
+			}
+	
+	public int buscarUsuarioListaTotalPagina(String nome, Long userLogado) throws Exception{
+		
+		String sql = "SELECT COUNT(1) AS Total FROM model_login WHERE upper(nome) LIKE upper('%"+nome+"%') and useradmin is false and usuario_id = " + userLogado;
+		PreparedStatement statement = connection.prepareStatement(sql);
+		ResultSet resultado = statement.executeQuery();
+		resultado.next();
+		Double cadastros = resultado.getDouble("Total");
+		Double porpagina = 5.0;
+		Double pagina = cadastros/porpagina;
+		Double resto = pagina % 2;
+		
+		if(resto > 0) {
+			pagina++;
+		}
+		
+		return pagina.intValue();
 	}
 	
 	public ModelLogin consultarUsuario(String login, Long userLogado) throws Exception {
@@ -301,27 +341,30 @@ public ModelLogin consultarUsuario(String login) throws Exception {
 		
 	}
 	
-public List<ModelLogin> buscarUsuarioListaTelaPaginada(Long userLogado, Integer offset) throws Exception{
-		
-		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
-		
-		String sql = "SELECT * FROM model_login where useradmin is false and usuario_id = " + userLogado + " ORDER BY nome OFFSET " + offset + " LIMIT 5";
-		
-		PreparedStatement statement = connection.prepareStatement(sql);
-		ResultSet resultado = statement.executeQuery();
-		while(resultado.next()) {
-			ModelLogin modelLogin = new ModelLogin();
-			modelLogin.setEmail(resultado.getString("email"));
-			modelLogin.setId(resultado.getLong("id"));
-			modelLogin.setLogin(resultado.getString("login"));
-			modelLogin.setNome(resultado.getString("nome"));
-			modelLogin.setPerfil(resultado.getString("perfil"));
-			modelLogin.setSexo(resultado.getString("sexo"));
-			//modelLogin.setSenha(resultado.getString("senha"));
+	public List<ModelLogin> buscarUsuarioListaTelaPaginada(Long userLogado, Integer offset) throws Exception{
 			
-			retorno.add(modelLogin);
+			List<ModelLogin> retorno = new ArrayList<ModelLogin>();
+			
+			String sql = "SELECT * FROM model_login where useradmin is false and usuario_id = " + userLogado + " ORDER BY nome OFFSET " + offset + " LIMIT 5";
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			ResultSet resultado = statement.executeQuery();
+			while(resultado.next()) {
+				ModelLogin modelLogin = new ModelLogin();
+				modelLogin.setEmail(resultado.getString("email"));
+				modelLogin.setId(resultado.getLong("id"));
+				modelLogin.setLogin(resultado.getString("login"));
+				modelLogin.setNome(resultado.getString("nome"));
+				modelLogin.setPerfil(resultado.getString("perfil"));
+				modelLogin.setSexo(resultado.getString("sexo"));
+				//modelLogin.setSenha(resultado.getString("senha"));
+				
+				retorno.add(modelLogin);
+			}
+			return retorno;
 		}
-		return retorno;
-	}
+	
+	
+	
 	
 }
