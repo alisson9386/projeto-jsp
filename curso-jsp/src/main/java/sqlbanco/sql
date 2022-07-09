@@ -8,6 +8,7 @@ CREATE DATABASE "curso-jsp"
     CONNECTION LIMIT = -1;
     
 ------------------------------------------------------------------------------
+Tabela Login
 
 	CREATE TABLE public.model_login
 	(
@@ -21,8 +22,52 @@ CREATE DATABASE "curso-jsp"
 	ALTER TABLE public.model_login
 	    OWNER to postgres;
     
+------------------------------------------------------------------------------    
+    
+Tabela Telefone 
+
+
+CREATE TABLE public.telefone
+(
+    id integer NOT NULL DEFAULT nextval('model_telefone_seq'::regclass),
+    numero character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    usuario_id bigint NOT NULL,
+    admin_cad_id bigint NOT NULL,
+    CONSTRAINT telefone_pkey PRIMARY KEY (id),
+    CONSTRAINT admin_cad_fk FOREIGN KEY (admin_cad_id)
+        REFERENCES public.model_login (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT usuario_id_fk FOREIGN KEY (usuario_id)
+        REFERENCES public.model_login (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.telefone
+    OWNER to postgres;
 ------------------------------------------------------------------------------
+    Usuario Admin
     
 	INSERT INTO public.model_login(
 	login, senha)
 	VALUES ('admin', 'admin');
+	
+------------------------------------------------------------------------------
+Sequences
+
+CREATE SEQUENCE public.model_login_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 2147483647
+    CACHE 1;
+    
+CREATE SEQUENCE public.model_telefone_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 2147483647
+    CACHE 1;	
