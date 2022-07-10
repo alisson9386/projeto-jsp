@@ -191,9 +191,11 @@
 															<button type="button"
 																class="btn btn-danger waves-effect waves-light"
 																onclick="deleteAjax();">Excluir</button>
+															<c:if test="${modelLogin.id != null}">
+																<a class="btn btn-primary waves-effect waves-light" href="<%=request.getContextPath() %>/ServletTelefone?iduser=${modelLogin.id}">Telefone</a>
+															</c:if>
 															<button type="button" class="btn btn-info"
-																data-toggle="modal" data-target="#exampleModalUsuario">Pesquisar
-																usuarios</button>
+																data-toggle="modal" data-target="#exampleModalUsuario">Pesquisar</button>
 														</form>
 													</div>
 												</div>
