@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.apache.tomcat.jakartaee.commons.compress.utils.IOUtils;
@@ -38,7 +40,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			String acao = request.getParameter("acao");
 
 			if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletar")) {
-				String id = request.getParameter("idUsuario");
+				String id = request.getParameter("id");
 
 				daoUsuarioRepository.deletarUsuario(id);
 				
@@ -141,8 +143,9 @@ public class ServletUsuarioController extends ServletGenericUtil {
 
 			String msg = "Operação realizada com sucesso!";
 
-			String id = request.getParameter("idUsuario");
+			String id = request.getParameter("id");
 			String nome = request.getParameter("nome");
+			String dataNascimento = request.getParameter("dataNascimento");
 			String email = request.getParameter("email");
 			String login = request.getParameter("login");
 			String senha = request.getParameter("senha");
@@ -158,6 +161,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			ModelLogin modelLogin = new ModelLogin();
 			modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
 			modelLogin.setNome(nome);
+			modelLogin.setDataNascimento(new Date(new SimpleDateFormat("dd/MM/yyyy").parse(dataNascimento).getTime()));
 			modelLogin.setEmail(email);
 			modelLogin.setLogin(login);
 			modelLogin.setSenha(senha);
