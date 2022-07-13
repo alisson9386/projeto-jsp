@@ -163,7 +163,8 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			ModelLogin modelLogin = new ModelLogin();
 			modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
 			modelLogin.setNome(nome);
-			modelLogin.setDataNascimento(new Date(new SimpleDateFormat("dd/mm/yyyy").parse(dataNascimento).getTime()));
+			Date.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(dataNascimento)));
+			modelLogin.setDataNascimento(new Date(new SimpleDateFormat("dd/MM/yyyy").parse(dataNascimento).getTime()));
 			modelLogin.setEmail(email);
 			modelLogin.setLogin(login);
 			modelLogin.setSenha(senha);
