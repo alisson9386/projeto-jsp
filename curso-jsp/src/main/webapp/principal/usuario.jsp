@@ -53,16 +53,22 @@
 																	<input type="file" id="fileFoto" name="fileFoto" accept="image/*" onchange="visualizaImg('fotoembase64','fileFoto');" class="form-control-file" style="margin-top: 15px; margin-left: 5px">
 															</div>
 															<div class="form-group form-default form-static-label">
+																<input type="text" name="nome" id="nome"
+																	class="form-control" required="required"
+																	value="${modelLogin.nome}"> <span
+																	class="form-bar"></span> <label class="float-label">Nome:</label>
+															</div>
+															<div class="form-group form-default form-static-label">
 																<input type="text" name="dataNascimento" id="dataNascimento"
 																	class="form-control" required="required"
 																	value="${modelLogin.dataNascimento}"> <span
 																	class="form-bar"></span> <label class="float-label">Data de Nascimento:</label>
 															</div>
 															<div class="form-group form-default form-static-label">
-																<input type="text" name="nome" id="nome"
+																<input type="text" name="rendaMensal" id="rendaMensal"
 																	class="form-control" required="required"
-																	value="${modelLogin.nome}"> <span
-																	class="form-bar"></span> <label class="float-label">Nome:</label>
+																	value="${modelLogin.rendaMensal}"> <span
+																	class="form-bar"></span> <label class="float-label">Renda Mensal:</label>
 															</div>
 															<div class="form-group form-default form-static-label">
 																<input type="email" name="email" id="email"
@@ -312,6 +318,8 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+	
+	$("#rendaMensal").maskMoney({showSymbol:true, symbol:"R$ ", decimal:",", thousands:"."});
 	
 	$( function() {
 		  
