@@ -125,6 +125,12 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				String dataInicial = request.getParameter("dataInicial");
 				String dataFinal = request.getParameter("dataFinal");
 				
+				if(dataInicial == null || dataInicial.isEmpty() 
+						&& dataFinal == null || dataFinal.isEmpty()) {
+					List<ModelLogin> listaUser = daoUsuarioRepository.buscarUsuarioListaRel(super.getUserLogado(request));
+					request.setAttribute("listaUser", listaUser);
+				}
+				
 				request.setAttribute("dataInicial", dataInicial);
 				request.setAttribute("dataFinal", dataFinal);
 				request.getRequestDispatcher("principal/reluser.jsp").forward(request, response);
