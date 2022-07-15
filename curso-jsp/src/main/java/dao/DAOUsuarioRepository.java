@@ -8,11 +8,12 @@ import java.util.List;
 
 import connection.SingleConnectionBanco;
 import model.ModelLogin;
+import model.ModelTelefone;
 
 public class DAOUsuarioRepository {
 	
 	private Connection connection;
-
+	
 	public DAOUsuarioRepository() {
 		connection = SingleConnectionBanco.getConnection();
 	}
@@ -360,12 +361,14 @@ public List<ModelLogin> buscarUsuarioListaRel(Long userLogado) throws Exception{
 		
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet resultado = statement.executeQuery();
+		
 		while(resultado.next()) {
 			ModelLogin modelLogin = new ModelLogin();
 			modelLogin.setEmail(resultado.getString("email"));
 			modelLogin.setId(resultado.getLong("id"));
 			modelLogin.setLogin(resultado.getString("login"));
 			modelLogin.setNome(resultado.getString("nome"));
+			modelLogin.setTelefones(this.listaFone(modelLogin.getId()));
 			modelLogin.setPerfil(resultado.getString("perfil"));
 			modelLogin.setSexo(resultado.getString("sexo"));
 			modelLogin.setDataNascimento(resultado.getDate("datanascimento"));
@@ -376,6 +379,30 @@ public List<ModelLogin> buscarUsuarioListaRel(Long userLogado) throws Exception{
 		}
 		return retorno;
 	}
+
+	public List<ModelTelefone> listaFone(Long usuario_id) throws Exception {
+		
+		List<ModelTelefone> telefones = new ArrayList<ModelTelefone>();
+		
+		String sql = "SELECT * FROM telefone WHERE usuario_id = ?";
+		
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setLong(1, usuario_id);
+		ResultSet set = statement.executeQuery();
+		
+		while(set.next()) {
+			ModelTelefone modelTelefone = new ModelTelefone();
+			
+			modelTelefone.setId(set.getLong("id"));
+			modelTelefone.setNumero(set.getString("numero"));
+			modelTelefone.setUsuario_id(this.consultarUsuarioPorId(set.getLong("usuario_id")));
+			modelTelefone.setAdmin_cad_id(this.consultarUsuarioPorId(set.getLong("admin_cad_id")));
+			
+			telefones.add(modelTelefone);
+		}	
+	
+	return telefones;
+}
 	
 	public List<ModelLogin> buscarUsuarioListaTela(Long userLogado) throws Exception{
 		
