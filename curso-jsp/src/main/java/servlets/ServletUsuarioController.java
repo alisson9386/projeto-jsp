@@ -20,6 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import model.ModelLogin;
+import util.ReportUtil;
 
 @MultipartConfig
 @WebServlet(urlPatterns = { "/ServletUsuarioController"})
@@ -107,7 +108,9 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				
 				String id = request.getParameter("id");
 				ModelLogin modelLogin = daoUsuarioRepository.consultarUsuarioPorId(id, super.getUserLogado(request));
+				
 				if(modelLogin.getFotoUser() != null && !modelLogin.getFotoUser().isEmpty()) {
+					
 					response.setHeader("Content-Disposition", "attachment;filename=arquivo." + modelLogin.getExtensaoFotoUser());
 					response.getOutputStream().write(new Base64().decodeBase64(modelLogin.getFotoUser().split("\\,")[1]));
 				}
@@ -138,6 +141,27 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				request.setAttribute("dataInicial", dataInicial);
 				request.setAttribute("dataFinal", dataFinal);
 				request.getRequestDispatcher("principal/reluser.jsp").forward(request, response);
+				
+			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("imprimirRelatorioPDF")) {
+				String dataInicial = request.getParameter("dataInicial");
+				String dataFinal = request.getParameter("dataFinal");
+				
+				List<ModelLogin> modelLogins = null;
+				
+				if(dataInicial == null || dataInicial.isEmpty() 
+						&& dataFinal == null || dataFinal.isEmpty()) {
+					
+					 modelLogins = daoUsuarioRepository.buscarUsuarioListaRel(super.getUserLogado(request));
+					
+				}else {
+					
+					 modelLogins = daoUsuarioRepository.buscarUsuarioListaRel(super.getUserLogado(request), dataInicial, dataFinal);
+					 
+				}
+				byte[] relatorio = new ReportUtil().geraRelatorioPDF(modelLogins, "reluser-jsp", request.getServletContext());
+				
+				response.setHeader("Content-Disposition", "attachment;filename=arquivo.pdf");
+				response.getOutputStream().write(relatorio);
 				
 			} else {
 			
