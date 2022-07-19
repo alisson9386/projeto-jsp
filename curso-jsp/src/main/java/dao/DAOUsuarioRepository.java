@@ -1,8 +1,10 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -353,7 +355,7 @@ public ModelLogin consultarUsuario(String login) throws Exception {
 		connection.commit();
 	}
 	
-public List<ModelLogin> buscarUsuarioListaRel(Long userLogado) throws Exception{
+	public List<ModelLogin> buscarUsuarioListaRel(Long userLogado) throws Exception{
 		
 		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
 		
@@ -374,6 +376,34 @@ public List<ModelLogin> buscarUsuarioListaRel(Long userLogado) throws Exception{
 			modelLogin.setDataNascimento(resultado.getDate("datanascimento"));
 			modelLogin.setRendaMensal(resultado.getDouble("rendamensal"));
 			//modelLogin.setSenha(resultado.getString("senha"));
+			
+			retorno.add(modelLogin);
+		}
+		return retorno;
+	}
+	
+	public List<ModelLogin> buscarUsuarioListaRel(Long userLogado, String dataInicial, String dataFinal) throws Exception{
+		
+		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
+		
+		String sql = "SELECT * FROM model_login where useradmin is false and usuario_id = " + userLogado + " and datanascimento >= ? and datanascimento <= ? order by nome";
+		
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setDate(1, Date.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(dataInicial))));
+		statement.setDate(2, Date.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(dataFinal))));
+		ResultSet resultado = statement.executeQuery();
+		
+		while(resultado.next()) {
+			ModelLogin modelLogin = new ModelLogin();
+			modelLogin.setEmail(resultado.getString("email"));
+			modelLogin.setId(resultado.getLong("id"));
+			modelLogin.setLogin(resultado.getString("login"));
+			modelLogin.setNome(resultado.getString("nome"));
+			modelLogin.setTelefones(this.listaFone(modelLogin.getId()));
+			modelLogin.setPerfil(resultado.getString("perfil"));
+			modelLogin.setSexo(resultado.getString("sexo"));
+			modelLogin.setDataNascimento(resultado.getDate("datanascimento"));
+			modelLogin.setRendaMensal(resultado.getDouble("rendamensal"));
 			
 			retorno.add(modelLogin);
 		}

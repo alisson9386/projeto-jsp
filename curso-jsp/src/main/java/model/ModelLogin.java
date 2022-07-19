@@ -206,6 +206,8 @@ public class ModelLogin implements Serializable {
 		for (ModelTelefone modelTelefone : telefones) {
 			if(telefones.size() > 1) {
 				fone += modelTelefone.getNumero() + " / ";
+			}else {
+				fone += modelTelefone.getNumero();
 			}
 		}
 		return fone;

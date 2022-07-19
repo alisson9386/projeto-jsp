@@ -129,6 +129,10 @@ public class ServletUsuarioController extends ServletGenericUtil {
 						&& dataFinal == null || dataFinal.isEmpty()) {
 					List<ModelLogin> listaUser = daoUsuarioRepository.buscarUsuarioListaRel(super.getUserLogado(request));
 					request.setAttribute("listaUser", listaUser);
+				}else {
+					
+					List<ModelLogin> listaUser = daoUsuarioRepository.buscarUsuarioListaRel(super.getUserLogado(request), dataInicial, dataFinal);
+					request.setAttribute("listaUser", listaUser);
 				}
 				
 				request.setAttribute("dataInicial", dataInicial);
