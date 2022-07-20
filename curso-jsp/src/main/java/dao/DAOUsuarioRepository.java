@@ -44,6 +44,32 @@ public class DAOUsuarioRepository {
 		return salarioUser;
 	}
 	
+	public BeanDTOGraficoSalarioUser montarGraficoMediaSalario(Long userLogado, String dataInicial, String dataFinal) throws Exception{
+		String sql = "SELECT  trunc(AVG(rendamensal),2) AS media_salarial, perfil FROM model_login WHERE usuario_id = ? and datanascimento >= ? and datanascimento <= ? group by perfil";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setLong(1, userLogado);
+		statement.setDate(2, Date.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(dataInicial))));
+		statement.setDate(3, Date.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(dataFinal))));
+		
+		ResultSet resultado = statement.executeQuery(); 
+		List<String> perfis = new ArrayList<String>();
+		List<Double> salarios = new ArrayList<Double>();
+		
+		BeanDTOGraficoSalarioUser salarioUser = new BeanDTOGraficoSalarioUser();
+				
+		while(resultado.next()) {
+			Double media_salarial = resultado.getDouble("media_salarial");
+			String perfil = resultado.getString("perfil");
+			perfis.add(perfil);
+			salarios.add(media_salarial);
+		}
+		
+		salarioUser.setPerfis(perfis);
+		salarioUser.setSalarios(salarios);
+		
+		return salarioUser;
+	}
+	
 	public ModelLogin gravarUsuario(ModelLogin objetoUsuario, Long userLogado) throws Exception {
 		if(objetoUsuario.isNovo()) {
 				String sql = "INSERT INTO model_login(login, senha, nome, email, usuario_id, perfil, sexo, cep, logradouro, bairro, localidade, uf, numero, datanascimento, rendamensal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
