@@ -25,7 +25,7 @@ public class DAOUsuarioRepository {
 		String sql = "SELECT  trunc(AVG(rendamensal),2) AS media_salarial, perfil FROM model_login WHERE usuario_id = ? group by perfil";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setLong(1, userLogado);
-		ResultSet resultado = statement.executeQuery();
+		ResultSet resultado = statement.executeQuery(); 
 		List<String> perfis = new ArrayList<String>();
 		List<Double> salarios = new ArrayList<Double>();
 		
