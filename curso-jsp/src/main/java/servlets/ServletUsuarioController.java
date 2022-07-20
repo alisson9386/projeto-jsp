@@ -13,6 +13,7 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import beandto.BeanDTOGraficoSalarioUser;
 import dao.DAOUsuarioRepository;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -178,7 +179,30 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				response.setHeader("Content-Disposition", "attachment;filename=arquivo.pdf");
 				response.getOutputStream().write(relatorio);
 				
-			} else {
+			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("graficoSalario")) {
+				
+				String dataInicial = request.getParameter("dataInicial");
+				String dataFinal = request.getParameter("dataFinal");
+				
+				if(dataInicial == null || dataInicial.isEmpty() 
+						&& dataFinal == null || dataFinal.isEmpty()) {
+					
+					BeanDTOGraficoSalarioUser beanDTOGraficoSalarioUser = daoUsuarioRepository
+					.montarGraficoMediaSalario(super.getUserLogado(request));
+					
+					ObjectMapper mapper = new ObjectMapper();
+					String json = mapper.writeValueAsString(beanDTOGraficoSalarioUser);
+					response.getWriter().write(json);
+					
+					
+				}else {
+					
+					 
+				}
+				
+				
+			}
+			else {
 			
 				
 				List<ModelLogin> modelLogins = daoUsuarioRepository.buscarUsuarioListaTela(super.getUserLogado(request));
