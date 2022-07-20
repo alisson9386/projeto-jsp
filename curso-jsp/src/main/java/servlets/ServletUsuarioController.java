@@ -166,6 +166,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				params.put("PARAM_SUB_REPORT", request.getServletContext().getRealPath("relatorio") + File.separator);
 				
 				byte[] relatorio = null;
+				@SuppressWarnings("unused")
 				String extensao = "";
 				
 				if(acao.equalsIgnoreCase("imprimirRelatorioPDF")) {

@@ -1,10 +1,15 @@
 package filter;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Scanner;
+
 
 import connection.SingleConnectionBanco;
+import dao.DAOVersionadorBanco;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
@@ -77,6 +82,45 @@ public class FilterAutenticacao implements Filter {
 	// Iniicia os processos ou recursos quando o servidor sobe o projeto
 	public void init(FilterConfig fConfig) throws ServletException {
 		connection = SingleConnectionBanco.getConnection();
+		
+		DAOVersionadorBanco daoVersionadorBanco = new DAOVersionadorBanco();
+		
+		String caminhoPastaSQL = fConfig.getServletContext().getRealPath("versionadorbancosql") + File.separator;
+		
+		File[] filesSql = new File(caminhoPastaSQL).listFiles();
+		
+		try {
+			
+			for (File file : filesSql) {
+				
+				boolean arquivoJaRodado = daoVersionadorBanco.arquivoSqlRodado(file.getName());
+				
+				if(!arquivoJaRodado) {
+					FileInputStream entradaArquivo = new FileInputStream(file);
+					Scanner lerArquivo = new Scanner(entradaArquivo, "UTF-8");
+					
+					StringBuilder sql = new StringBuilder();
+					while(lerArquivo.hasNext()) {
+						sql.append(lerArquivo.nextLine());
+						sql.append("\n");
+					}
+					
+					connection.prepareStatement(sql.toString()).execute();
+					daoVersionadorBanco.gravaArquivoSqlRodado(file.getName());
+					connection.commit();
+					lerArquivo.close();
+				}
+			}
+			
+			
+		} catch (Exception e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
 	}
 
 }
